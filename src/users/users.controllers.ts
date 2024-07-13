@@ -1,6 +1,7 @@
-import { Controller, Get, Post, Delete, Put, Headers, Body } from "@nestjs/common";
+import { Controller, Get, Post, Delete, Put, Headers, Body, Param } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { HeaderVersioningOptions } from "@nestjs/common/interfaces";
+
 
 @Controller('users')
 export class UsersControllers {
@@ -10,21 +11,21 @@ export class UsersControllers {
         return this.usersService.findAll()
     }
     @Get(':id')
-    getUserAtId() {
-        return this.usersService.getUserAtId()
+    getUserAtId(@Param() id: string) {
+        return this.usersService.getUserAtId(id)
     }
         
     @Post()
-    create(@Headers() headers): string {
-        const userAget = headers['user-agent'];
-        const contentType = headers['content-type'];
-
-        return 'Это метод создания нового пользователя';
+    create(@Body() body) {
+        return this.usersService.createUser(body)
       }
 
     @Put()
-    update(@Body() key?: string) {
-        return key
+    update(@Body() body: {[key:string]: unknown}) {
+        return body?.name
     }
-    // @Delete()
+    @Delete(':id')
+    delete(@Param() id: string) {
+        return this.usersService.deleteUserAtId(id)
+    }
 }
