@@ -1,6 +1,8 @@
-import { Controller, Get, Post, Delete, Put, Headers, Body, Param } from "@nestjs/common";
+import { Controller, Get, Post, Delete, Put, Headers, Body, Param, ParseIntPipe } from "@nestjs/common";
 import { UsersService } from "./users.service";
+import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { HeaderVersioningOptions } from "@nestjs/common/interfaces";
+import { User } from "./entity/user.entity";
 
 
 @Controller('users')
@@ -11,21 +13,35 @@ export class UsersControllers {
         return this.usersService.findAll()
     }
     @Get(':id')
-    getUserAtId(@Param() id: {id: string}) {
-        return this.usersService.getUserAtId(id)
+    async getUserAtId(@Param('id', ParseIntPipe) id: number) {
+
+        // return typeof(id)
+        return await this.usersService.getUserAtId(id)
     }
         
     @Post()
-    create(@Body() body) {
-        return this.usersService.createUser(body)
+    @ApiOperation({ summary: 'Create a new user' })
+    @ApiBody({ 
+        schema: {
+          type: 'object',
+          properties: {
+            firstName: { type: 'string' },
+            lastName: { type: 'string' },
+            age: { type: 'number' }
+          }
+        }
+      })
+    create(@Body() body: {[key:string]: any}) {
+        const { firstName, lastName, age } = body;
+        return this.usersService.createUser(firstName, lastName, age)
       }
 
     @Put()
     update(@Body() body: {[key:string]: unknown}) {
         return body?.name
     }
-    @Delete(':id')
-    delete(@Param() id: string) {
-        return this.usersService.deleteUserAtId(id)
-    }
+    // @Delete(':id')
+    // delete(@Param() id: string) {
+    //     return this.usersService.deleteUserAtId(id)
+    // }
 }
