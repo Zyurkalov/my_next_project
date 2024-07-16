@@ -11,7 +11,7 @@ export class UsersControllers {
         return this.usersService.findAll()
     }
     @Get(':id')
-    getUserAtId(@Param() id: string) {
+    getUserAtId(@Param() id: {id: string}) {
         return this.usersService.getUserAtId(id)
     }
         

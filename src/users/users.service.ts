@@ -8,8 +8,9 @@ export class UsersService {
     findAll() {
         return this.userList.getList()
     }
-    getUserAtId(targetId : string) {
-        return this.userList.getList()[this.findUserIndex(targetId)]
+    getUserAtId({id} : any) {
+        return this.userList.getList()[id -1]
+        // return this.userList.getList()[this.findUserIndex(targetId)]
     }
     createUser(newUser) {
         const user = {
@@ -17,7 +18,8 @@ export class UsersService {
             ...newUser
         }
         this.userList.getList().push(user)
-        return this.userList.getList()[ this.userList.getList().length]
+        // return this.userList.getList()[this.userList.getList().length]
+        return user
     }
     deleteUserAtId(targetId) {
         this.userList.getList().splice(this.findUserIndex(targetId), 1)

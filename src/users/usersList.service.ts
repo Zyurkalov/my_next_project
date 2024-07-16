@@ -1,6 +1,9 @@
 import { Injectable } from "@nestjs/common";
 
-let residents = [
+
+@Injectable()
+export class UserList {
+  private residents = [
     {
       id: '1',
       name: 'Sherlock Holmes',
@@ -16,14 +19,11 @@ let residents = [
       name: 'Mrs Hudson',
       email: 'hostess@221b.uk',
     },
-]
-
-@Injectable()
-export class UserList {
-    constructor(private usersList = residents) {}
+];
+    constructor() {}
 
     getList() {
-        return this.usersList
+        return this.residents
     }
 }
 
