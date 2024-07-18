@@ -1,7 +1,6 @@
 import { Controller, Get, Post, Delete, Put, Headers, Body, Param, ParseIntPipe } from "@nestjs/common";
 import { UsersService } from "./users.service";
 import { ApiBody, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { HeaderVersioningOptions } from "@nestjs/common/interfaces";
 import { User } from "./entity/user.entity";
 
 
@@ -34,7 +33,7 @@ export class UsersControllers {
     create(@Body() body: {[key:string]: any}) {
         const { firstName, lastName, age } = body;
         return this.usersService.createUser(firstName, lastName, age)
-      }
+    }
 
     @Put()
     update(@Body() body: {[key:string]: unknown}) {
